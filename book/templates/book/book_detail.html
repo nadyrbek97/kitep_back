@@ -1,0 +1,17 @@
+{% extends 'book/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row container">
+        <div class="col-lg-6 ">
+             <h1 class="fa-bold">{{ book.title }}</h1>
+            <img src="{{ book.image.url }}" class="img-fluid media border p-4" alt="">
+        </div>
+        <div class="col-lg-6 mt-6">
+            <p class="text-justify" >{{ book.description }}</p>
+            <h4>{{ book.published_year }} year</h4>
+        </div>
+        <br><br><br>
+
+    </div>
+
+{% endblock %}

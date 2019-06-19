@@ -1,0 +1,22 @@
+{% extends "book/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="text-info">{{ collection.title }}</h2>
+        <div class="row">
+
+            {% for book in collection.books.all %}
+                <div class="col-xs-12 col-sm-6 col-md-4 text-secondary">
+                    <img src="{{ book.image.url }}" class="img-fluid">
+                    <a href="{% url 'book-detail' book.id %}"><h1>{{ book.title }}</h1></a>
+                    <p id="book-description" >{{ book.description }}</p>
+                    <h3>{{ book.published_year }}</h3>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+{% endblock %}
