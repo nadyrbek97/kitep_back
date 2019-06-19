@@ -9,6 +9,9 @@
         <div class="col-lg-6 mt-6">
             <p class="text-justify" >{{ book.description }}</p>
             <h4>{{ book.published_year }} year</h4>
+            {% if book.file %}
+                <a href="{{ book.file.url }}"><button class="btn btn-primary">PDF</button></a>
+            {% endif %}
         </div>
         <br><br><br>
 

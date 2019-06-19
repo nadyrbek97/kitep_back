@@ -49,6 +49,8 @@ class Book(models.Model):
     published_year = models.CharField(max_length=10)
     image = models.ImageField(upload_to="book_images",
                               default="book_images/default.png")
+    file = models.FileField(upload_to="book_files",
+                            null=True)
     writer = models.ForeignKey(Writer,
                                null=True,
                                blank=True,
