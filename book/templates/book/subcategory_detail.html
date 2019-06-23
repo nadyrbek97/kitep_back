@@ -30,7 +30,7 @@
                 {% for book in subcategory.books.all %}
                     <div class="container">
                         <a href="{% url 'book-detail' book.id %}"><h4>{{ book.title }} ({{ book.published_year }})</h4></a>
-                        <img src="{{ book.image.url }}">
+                        <img src="{{ book.image.url }}" class="img-fluid img-default-size">
                     </div>
                     
                 {% endfor %}

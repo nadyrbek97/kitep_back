@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
+.img-default-size {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+    }
+
+.col-img-default-size {
+        width: 450px;
+        heigth: 450px;
+        object-fit: contain;
+    }
+
 html, body {
     height: 100%;
     width: 100%;
@@ -10,7 +22,7 @@ html, body {
     width: 20%;
 }
 .login-link:hover{
-    text-shadow: 10px;
+    text-shadow: 10rem;
     color: red;
 }
 
@@ -42,6 +54,12 @@ html, body {
     font-size: 200%;
     font-weight: 500;
     text-shadow: 1px 1px 15px #000;
+}
+
+div.img-default-size {
+    width: 150px !important;
+    height: 150px;
+    object-fit: contain;
 }
 
 #book-description{
@@ -219,7 +237,7 @@ figure {
   height: 100%;
 }
 #fixed {
-  background-image: url('../../../media/img/mac.png');
+  background-image: url('../media/img/mac.png');
   position: fixed;
   display: block;
   top: 0;

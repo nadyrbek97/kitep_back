@@ -8,7 +8,7 @@
 
             {% for book in collection.books.all %}
                 <div class="col-xs-12 col-sm-6 col-md-4 text-secondary">
-                    <img src="{{ book.image.url }}" class="img-fluid">
+                    <img src="{{ book.image.url }}" class="img-fluid img-default-size">
                     <a href="{% url 'book-detail' book.id %}"><h1>{{ book.title }}</h1></a>
                     <p id="book-description" >{{ book.description }}</p>
                     <h3>{{ book.published_year }}</h3>
