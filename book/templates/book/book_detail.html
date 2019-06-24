@@ -1,22 +1,59 @@
 {% extends 'book/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{% load book_tags %}
 
 {% block content %}
-    <div class="container">
-        <div class="col-lg-6 ">
-             <h1 class="fa-bold">{{ book.title }}</h1>
-            <img src="{{ book.image.url }}" class="img-fluid media border p-4" alt="">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-sm-12">
+                <!-- Book container -->
+                <div class="card">
+                    <header class="card-header">
+                        <h1 class="title fa-bold">{{ book.title }}</h1>
+                    </header>
+                    <div class="col-lg-12 ">
+
+                        <img src="{{ book.image.url }}" class="img-fluid media border p-4" alt="">
+                    </div>
+                    <div class="col-lg-6 mt-6">
+                        <p class="text-justify" >{{ book.description }}</p>
+                        <h4>{{ book.published_year }} year</h4>
+                        {% if book.file %}
+                            <a href="{{ book.file.url }}"><button class="btn btn-primary">PDF</button></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- End of Book container -->
+            </div>
+
+            <div class="col-lg-4 col-sm-12">
+                <!-- Most Commented Books -->
+                <div class="card">
+                    <div class="col-lg-12">
+                        <h3>Most commented books</h3>
+                        {% get_most_commented_books as most_commented_books %}
+                        <ul class="list">
+                            {% for book in most_commented_books %}
+                                <li class="list-group-item">
+                                    <a href="{{ book.get_absolute_url }}">
+                                        {{ book.title }}
+                                    </a>
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- End of Most Commented Books -->
+            </div>
         </div>
-        <div class="col-lg-6 mt-6">
-            <p class="text-justify" >{{ book.description }}</p>
-            <h4>{{ book.published_year }} year</h4>
-            {% if book.file %}
-                <a href="{{ book.file.url }}"><button class="btn btn-primary">PDF</button></a>
-            {% endif %}
-        </div>
+
+
         <br><br><br>
+
+
 
     </div>
 
