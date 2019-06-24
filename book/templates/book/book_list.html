@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'book/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Books tagged with <span class="text-warning">"{{ tag.name }}"</span> </h2>
+        <div class="row text-center padding">
+            {% for book in books %}
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <img src="{{ book.image.url }}" class="img-fluid img-default-size">
+                    <a href="{% url 'book-detail' book.id %}"><h1>{{ book.title }}</h1></a>
+                    <p id="book-description" >{{ book.description }}</p>
+                    <h3>{{ book.published_year }}</h3>
+                </div>
+            {% endfor %}
+        </div>
+        <hr class="my-6">
+    </div>
+{% endblock %}

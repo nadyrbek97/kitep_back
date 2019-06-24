@@ -8,8 +8,9 @@ from .models import (Book,
                      SubCategory,
                      Writer,
                      Collection,
-                     Comment)
+                     Comment,)
 from .forms import (CommentForm, )
+from taggit.models import Tag
 
 
 def index_page_view(request):
@@ -71,9 +72,18 @@ def book_detail(request, pk):
                            'comment_form': comment_form})
 
 
-class BookDetailView(views.generic.DetailView):
+def book_tag_list(request, tag_slug=None):
 
-    model = Book
+    object_list = Book.objects.all()
+
+    tag = None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        object_list = object_list.filter(tags__in=[tag])
+
+    return render(request, 'book/book_list.html', context={ "books": object_list,
+                                                            "tag": tag})
 
 
 # Collections View

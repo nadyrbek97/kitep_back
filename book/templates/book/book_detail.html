@@ -26,6 +26,24 @@
                  {% with comments.count as total_comments %}
                     <h4> {{ total_comments }} comment{{ total_comments|pluralize }}</h4>
                  {% endwith %}
+
+                <!-- Tags -->
+
+                {% if book.tags.all %}
+                    <p class="tags">
+                        <span class="border border-dark rounded bg-warning p-1">Tags:</span>
+                        {% for tag in book.tags.all %}
+                            <a href="{% url "book-tag-list" tag.slug %}">
+                                {{ tag.name }}
+                            </a>
+                            {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+
+                    </p>
+                {% endif %}
+
+                <!-- End of Tags -->
+
             </div>
             {% for comment in comments %}
                 <div class="card-body">
