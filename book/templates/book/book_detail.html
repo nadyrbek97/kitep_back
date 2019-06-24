@@ -20,6 +20,21 @@
 
     </div>
 
+    <div class="container">
+        <div class="card pt-2 pl-4">
+            <h3>Similar Books</h3>
+            {% for book in similar_books %}
+                <p>
+                    <a href="{{ book.get_absolute_url }}">
+                        {{ book.title }}
+                    </a>
+                    {% if not forloop.last %}, {% endif %}
+                </p>
+            {% endfor %}
+        </div>
+
+    </div>
+
     <div class="container mt-4 mb-4">
         <div class="card">
             <div class="ml-4 mt-2">
