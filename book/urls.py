@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (index_page_view,
+                    book_detail,
                     BookDetailView,
                     SubCategoryDetailView,
                     CategoryListView,
@@ -14,7 +15,7 @@ urlpatterns = [
     path('categories', CategoryListView.as_view(), name='category-list'),
     path('subcategory/<int:pk>/', SubCategoryDetailView.as_view(), name='sub-category-detail'),
     # book
-    path('book/<int:pk>/', BookDetailView.as_view(), name='book-detail'),
+    path('book/<int:pk>/', book_detail, name='book-detail'),
     # collections
     path('collections', CollectionListView.as_view(), name='collection-list'),
     path('collection/<int:pk>/', CollectionDetailView.as_view(), name='collection-detail')

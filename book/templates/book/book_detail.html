@@ -1,7 +1,10 @@
 {% extends 'book/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+
+
 {% block content %}
-    <div class="row container">
+    <div class="container">
         <div class="col-lg-6 ">
              <h1 class="fa-bold">{{ book.title }}</h1>
             <img src="{{ book.image.url }}" class="img-fluid media border p-4" alt="">
@@ -16,5 +19,67 @@
         <br><br><br>
 
     </div>
+
+    <div class="container mt-4 mb-4">
+        <div class="card">
+            <div class="ml-4 mt-2">
+                 {% with comments.count as total_comments %}
+                    <h4> {{ total_comments }} comment{{ total_comments|pluralize }}</h4>
+                 {% endwith %}
+            </div>
+            {% for comment in comments %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <p>
+                                <a href="#" class="float-left">
+                                    <strong>{{ comment.user.username }}</strong>
+                                </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+
+                            <p>
+                                {{ comment.body }}
+                            </p>
+
+                            <p class="badge badge-primary text-wrap">{{ comment.created }}</p>
+                            <p>
+                                <a href="#" class="float-right btn btn-outline-primary ml-2"><i class="fab fa-facebook"> Reply</i></a>
+                                <a href="#" class="float-right btn btn-danger text-white"><i class="fab fa-youtube" aria-hidden="true"> Like</i></a>
+
+                            </p>
+
+                        </div>
+                        <!-- End of col   -->
+                    </div>
+                    <!--End of row -->
+                </div>
+                <!--End of card-body -->
+            {% endfor %}
+
+                <div class="card-body">
+                        {% if user.is_authenticated %}
+                            <form action="." method="post">
+                                {% csrf_token %}
+                                <p>
+                                    {{ comment_form|crispy }}
+                                </p>
+                                <button class="btn btn-info mb-4 ">
+                                    Add Comment
+                                </button>
+
+                            </form>
+                        {% else %}
+                            <div class="card-body bg-warming">
+                                <h4>To leave comments please <a href="{% url 'user-login' %}" class="text-info">Log In</a></h4>
+                            </div>
+                        {% endif %}
+                </div>
+                <!--End of card-body -->
+        </div>
+        <!--End of card -->
+    </div>
+    <!--End of container -->
 
 {% endblock %}

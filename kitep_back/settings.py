@@ -146,3 +146,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Login URL for django built-in login method
 LOGIN_REDIRECT_URL = "index-page-view"
+
+# messages
+MESSAGE_LEVEL = 10
