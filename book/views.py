@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django import views
 from django.views.generic import DetailView
+from django.contrib import messages
+
 from .models import (Book,
                      Category,
                      SubCategory,
@@ -15,8 +17,9 @@ def index_page_view(request):
     collections = Collection.objects.all()
     context = {
         "books": books,
-        "collections": collections
+        "collections": collections,
     }
+
     return render(request, "book/base.html", context=context)
 
 

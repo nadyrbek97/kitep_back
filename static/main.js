@@ -1,5 +1,5 @@
 let popular = document.getElementById("popular");
-    popular.style.color = "#111";
+    popular.style.color = "#100001";
 
     popular.addEventListener("onmouseover", function () {
         popular.style.color = "#898989";
@@ -19,8 +19,8 @@ function mouseLeave() {
 }
 
 
-let jumboButton = document.getElementById("jumbo-Btn");
-jumboButton.addEventListener('onclick', function () {
+let loginButton = document.getElementById("login-btn");
+loginButton.addEventListener('click', function () {
     console.log("1");
 });
 

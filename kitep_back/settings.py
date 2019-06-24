@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'book'
+    'crispy_forms',
+    'widget_tweaks',
+    'book',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -136,3 +139,10 @@ EMAIL_HOST_USER = 'nadyrbek97@gmail.com'
 EMAIL_HOST_PASSWORD = '0559333539nadr'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# crispy
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# Login URL for django built-in login method
+LOGIN_REDIRECT_URL = "index-page-view"

@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-
 {% load static from staticfiles %}
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Kitep.KG</title>
 
-    <link rel="icon" type="image/png" href="{{ STATIC_URL }}/static/kitep.png">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}kitep.png">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -23,9 +22,7 @@
 
 	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
-    <script src="{% static 'main.js' %}"></script>
 
 </head>
 
@@ -54,8 +51,28 @@
 			</li>
 
 			<li class="nav-item login-link">
-				<a class="nav-link" href="#">Log In</a>
+
+
+                {% if user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'user-logout' %}">
+                        <button id="login-btn" class="btn btn-info">
+                        Log Out
+                        </button>
+                    </a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'user-login' %}">
+                        <button id="login-btn" class="btn btn-info">
+                        Log In
+                        </button>
+                    </a>
+                    <a href="{% url 'user-register' %}">
+                        <button id="login-btn" class="btn btn-info">
+                        Register
+                        </button>
+                    </a>
+                {% endif %}
 			</li>
+
 		</ul>
 	</div>
 </div>
@@ -63,6 +80,15 @@
 
 <!--- Content --->
 {% block content %}
+
+    {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+    {% endif %}
 
 <!--- Image Slider -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -106,7 +132,7 @@
 		</p>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
-		<a href="#"><button type="button" id="jumgo-btn" class="btn btn-outline-secondary">Web hosting</button></a>
+		<a href="#"><button type="button" id="jumbo-btn" class="btn btn-outline-secondary">Web hosting</button></a>
 	</div>
 </div>
 
@@ -311,6 +337,12 @@
 
 
 </body>
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
+    <script src="{% static 'main.js' %}"></script>
+
 </html>
 
 
