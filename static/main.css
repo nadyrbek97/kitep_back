@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
+/* Last added style */
 .img-default-size {
         width: 300px;
         height: 300px;
@@ -11,6 +12,19 @@
         heigth: 450px;
         object-fit: contain;
     }
+
+.book-description-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 100vh;
+        resize: horizontal;
+        display: -webkit-box;
+        /* set up how many rows are allowed*/
+        -webkit-line-clamp: 10;
+        -webkit-box-orient: vertical;
+    }
+
+/* End of Last added style */
 
 html, body {
     height: 100%;
