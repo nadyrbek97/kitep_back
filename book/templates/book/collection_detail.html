@@ -1,6 +1,10 @@
 {% extends "book/base.html" %}
 {% load static %}
 
+{% block title %}
+    {{ collection.title }}
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <h2 class="text-info">{{ collection.title }}</h2>

@@ -19,6 +19,8 @@ urlpatterns = [
     path('book/tag/<slug:tag_slug>', book_tag_list, name="book-tag-list"),
     # collections
     path('collections', CollectionListView.as_view(), name='collection-list'),
-    path('collection/<int:pk>/', CollectionDetailView.as_view(), name='collection-detail')
+    path('collection/<int:pk>/', CollectionDetailView.as_view(), name='collection-detail'),
+    # ajax
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django import views
 from django.views.generic import DetailView
 from django.contrib import messages
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Count
 """
         This is the Count aggregation function of the Django ORM. This
@@ -18,6 +19,7 @@ from .models import (Book,
                      Comment,)
 from .forms import (CommentForm, )
 from taggit.models import Tag
+from datetime import datetime
 
 
 def index_page_view(request):
@@ -51,8 +53,7 @@ def book_detail(request, pk):
 
     book = get_object_or_404(Book, id=pk)
 
-    # List of all comments
-    comments = book.comments.all()
+    comments = book.comments.all().order_by("-created")[:4]
 
     # List of similar books
     book_tag_ids = book.tags.values_list('id', flat=True)
@@ -76,22 +77,37 @@ def book_detail(request, pk):
         the result to retrieve only the first four posts.
     """
 
-    if request.method == "POST":
+    if request.is_ajax():
         # means comment was posted
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             user = request.user
+
+            # we have to get user object for comment
             if user.is_anonymous:
                 messages.warning(request, "Please Log In to leave comments.")
                 return redirect('user-login')
             else:
                 comment.user = user
+
             comment.book = book
             comment.body = comment_form.cleaned_data.get('body')
             comment.save()
 
-            return redirect('book-detail', book.pk)
+            ajax_username = user.username
+            ajax_comment_body = comment.body
+            ajax_comment_date = comment.created.strftime("%B %d,%Y, %I:%M %p")
+
+            data = {
+                "username": ajax_username,
+                "body": ajax_comment_body,
+                "date": ajax_comment_date
+            }
+
+            return JsonResponse(data)
+
+            # return redirect('book-detail', book.pk)
     else:
         comment_form = CommentForm()
     return render(request,
@@ -112,7 +128,7 @@ def book_tag_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         object_list = object_list.filter(tags__in=[tag])
 
-    return render(request, 'book/book_list.html', context={ "books": object_list,
+    return render(request, 'book/book_list.html', context={"books": object_list,
                                                             "tag": tag})
 
 
