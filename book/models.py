@@ -68,6 +68,9 @@ class Book(models.Model):
                                    on_delete=models.CASCADE,
                                    related_name="books")
     tags = TaggableManager()
+    likes = models.ManyToManyField(User,
+                                   related_name="book_likes",
+                                   blank=True)
 
     def __str__(self):
         return self.title + "(" + self.published_year + ")"

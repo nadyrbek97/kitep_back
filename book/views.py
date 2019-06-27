@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django import views
 from django.views.generic import DetailView
 from django.contrib import messages
@@ -121,7 +121,6 @@ def book_detail(request, pk):
 def book_tag_list(request, tag_slug=None):
 
     object_list = Book.objects.all()
-
     tag = None
 
     if tag_slug:
@@ -130,6 +129,51 @@ def book_tag_list(request, tag_slug=None):
 
     return render(request, 'book/book_list.html', context={"books": object_list,
                                                             "tag": tag})
+
+
+# Like View
+def book_like_view(request):
+
+    book = get_object_or_404(Book, id=request.POST.get("book_id"))
+
+    if request.is_ajax():
+
+        user = request.user
+
+        if user.is_authenticated:
+            if user in book.likes.all():
+                book.likes.remove(user)
+                is_liked = False
+            else:
+                book.likes.add(user)
+                is_liked = True
+            print(is_liked)
+            data = {
+                "isLiked": is_liked
+            }
+
+            return JsonResponse(data)
+        return JsonResponse({"error": "errors"})
+# class BookLikeToggleView(views.generic.RedirectView):
+#     permanent = False
+#     query_string = True
+#     pattern_name = "book-detail"
+#
+#     def get_redirect_url(self, *args, book_id=None, **kwargs):
+#         print(kwargs)
+#         pk = self.kwargs.get('pk')
+#         book = get_object_or_404(Book, pk=book_id)
+#         # getting url for redirecting to the same page
+#         url_ = book.get_absolute_url()
+#         user = self.request.user
+#
+#         if user.is_authenticated():
+#             if user in book.likes.all():
+#                 book.likes.remove(user)
+#             else:
+#                 book.likes.add(user)
+#
+#         return super().get_redirect_url(*args, **kwargs)
 
 
 # Collections View

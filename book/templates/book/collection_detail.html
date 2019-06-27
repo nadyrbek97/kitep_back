@@ -14,7 +14,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-4 text-secondary">
                     <img src="{{ book.image.url }}" class="img-fluid img-default-size">
                     <a href="{% url 'book-detail' book.id %}"><h2>{{ book.title }}</h2></a>
-                    <p class="book-description-truncate" >{{ book.description }}</p>
+                    <p class="book-description-truncate" >{{ book.description }}<a href="{{ book.get_absolute_url }}"> more</a></p>
                     <h3>{{ book.published_year }}</h3>
                 </div>
             {% endfor %}

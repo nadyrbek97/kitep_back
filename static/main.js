@@ -30,7 +30,7 @@ $.ajaxSetup({
     }
 });
 
-
+// adding comment
 $("#form-comment-post").submit(function (event) {
 
     event.preventDefault();
@@ -161,6 +161,57 @@ $("#form-comment-post").submit(function (event) {
         // commentCard.prepend(commentCardBody);
 
         console.log("adding innerHTML ... ")
+    }
+
+});
+
+// adding like
+$("#book-like-form").submit( function (element) {
+    // element.preventDefault();
+    console.log("Liking");
+    let thisForm = $(this);
+    let actionEndPoint = thisForm.attr("action") || window.location.href;
+    let method = thisForm.attr("method");
+    let formData = thisForm.serialize();
+    console.log(thisForm.attr("action"), thisForm.attr("method"));
+
+    $.ajax({
+        url: actionEndPoint,
+        method: method,
+        data: formData,
+        success: handleFormSuccess,
+        error: handleFormError
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR) {
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        addLike(data['isLiked']);
+        $("#form-comment-post")[0].reset(); // reset form data
+
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+
+    function addLike(data){
+
+        let spanInt = parseInt($("#like-span").text());
+
+        if(data === true){
+            spanInt += 1;
+            spanInt.toString();
+            $("#like-span").text(spanInt);
+        }
+        else{
+            spanInt -= 1;
+            spanInt.toString();
+            $("#like-span").text(spanInt);
+        }
     }
 
 });

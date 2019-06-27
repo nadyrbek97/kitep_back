@@ -24,7 +24,25 @@
                             <img src="{{ book.image.url }}" class="img-fluid img-default-size media border p-4" alt="">
                         </div>
 
+                        <div class="col-lg-12">
+                        <!--- Likes and Views --->
+
+                            <form id="book-like-form" action="{% url 'book-like-view' %}" method="post" class="mb-3">
+                                <p>
+                                    {% csrf_token %}
+                                    <!---
+                                    <button type="submit" name="book_id" value="{{ book.id }}" class="float-left btn btn-outline-primary ">views <img src="https://img.icons8.com/material-outlined/24/000000/eyes-cartoon.png"> 34 </button>
+                                    --->
+                                    <button id="book-like-btn" type="submit" name="book_id" value="{{ book.id }}" class="float-left btn btn-danger text-light ml-3">likes <img class="like-image" src="https://img.icons8.com/material-sharp/24/000000/facebook-like.png"> <span id="like-span">{{ book.likes.count }}</span> </button>
+                                </p>
+                            </form>
+
+                        </div>
+
+                        <br><br>
+
                         <div class="col-lg-6 mt-6">
+
                             <p class="text-justify" >{{ book.description }}</p>
                             <h4>{{ book.published_year }} year</h4>
                             {% if book.file %}
@@ -115,7 +133,7 @@
         <div class="card" id="comment-card">
             <div class="ml-4 mt-2">
                  {% with comments.count as total_comments %}
-                    <h4>Last <span id="comment-count" >{{ total_comments }}</span> comment{{ total_comments|pluralize }}</h4>
+                    <h4>Last <span id="comment-count" >{{ total_comments }}</span> comment{{ total_comments|pluralize }} <img src="https://img.icons8.com/metro/26/000000/speech-bubble.png"></h4>
                  {% endwith %}
 
 
@@ -139,8 +157,8 @@
 
                             <p class="badge badge-primary text-wrap">{{ comment.created }}</p>
                             <p>
-                                <a href="#" class="float-right btn btn-outline-primary ml-2"><i class="fab fa-facebook"> Reply</i></a>
-                                <a href="#" class="float-right btn btn-danger text-white"><i class="fab fa-youtube" aria-hidden="true"> Like</i></a>
+                                <a href="#" class="float-right btn btn-outline-primary ml-2"><img src="https://img.icons8.com/android/24/000000/reply-arrow.png"></a>
+                                <a href="#" class="float-right btn btn-danger text-white"><img class="like-image" src="https://img.icons8.com/material-sharp/24/000000/facebook-like.png"></a>
 
                             </p>
 
