@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django import views
+from django.template.loader import render_to_string
 from django.views.generic import DetailView
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.db.models import Count
 """
         This is the Count aggregation function of the Django ORM. This
@@ -131,38 +132,63 @@ def book_tag_list(request, tag_slug=None):
                                                             "tag": tag})
 
 
-# Like View
-def book_like_view(request):
+def book_like(request, *args, **kwargs):
+    book_id = request.POST.get('book_id')
+    action = request.POST.get('data-action')
+    if book_id and action:
+        try:
+            book = book_id.objects.get(id=book_id)
+            if action == 'like':
+                book.likes.add(request.user)
+            else:
+                book.likes.remove(request.user)
+            return JsonResponse({'status':'ok'})
+        except:
+            pass
+    print(book_id)
+    print(action)
+    return JsonResponse({'status':'ko'})
 
-    book = get_object_or_404(Book, id=request.POST.get("book_id"))
+
+# Like View
+def book_like_view(request, pk):
+
+    book = get_object_or_404(Book, pk=pk)
+    user = request.user
+    is_liked = False
+    ajax = ''
 
     if request.is_ajax():
+        ajax += " is ajax"
+        if request.user in book.likes.all():
+            book.likes.remove(user)
+            is_liked = False
+            print("user removed")
+        else:
+            print("user added")
+            book.likes.add(user)
+            is_liked = True
 
-        user = request.user
+        data = {
+            "is_liked": is_liked,
+            "is_ajax": ajax
+        }
+        print(data)
+        return JsonResponse(data)
+    else:
+        return render(request, 'book/book_detail.html', context={"error": "error"})
 
-        if user.is_authenticated:
-            if user in book.likes.all():
-                book.likes.remove(user)
-                is_liked = False
-            else:
-                book.likes.add(user)
-                is_liked = True
-            print(is_liked)
-            data = {
-                "isLiked": is_liked
-            }
-
-            return JsonResponse(data)
-        return JsonResponse({"error": "errors"})
-# class BookLikeToggleView(views.generic.RedirectView):
+# class BookLikeToggleView(views.genec.RedirectView):
 #     permanent = False
 #     query_string = True
 #     pattern_name = "book-detail"
 #
 #     def get_redirect_url(self, *args, book_id=None, **kwargs):
+#
+#
 #         print(kwargs)
-#         pk = self.kwargs.get('pk')
-#         book = get_object_or_404(Book, pk=book_id)
+#         pk = get_object_or_404(Book, id=self.request.POST.get("data-id"))
+#         book = get_object_or_404(Book, pk=pk)
 #         # getting url for redirecting to the same page
 #         url_ = book.get_absolute_url()
 #         user = self.request.user

@@ -1,0 +1,19 @@
+<form id="book-like-form" action="{% url 'book-like-view' book.id %}" method="post" class="mb-3">
+
+        <p class="btn btn-danger ml-1" id="like-amount">{{ book.likes.count }}
+            <img src="https://img.icons8.com/material-rounded/24/000000/like.png">
+        </p>
+        {% csrf_token %}
+        {% if request.user not in book.likes.all %}
+            <button id="book-like-btn" type="submit" name="book_id" value="{{ book.id }}" class="float-left btn btn-danger text-light ml-3">
+                Like
+                <img class="like-image" src="https://img.icons8.com/material-sharp/24/000000/facebook-like.png">
+            </button>
+        {% else %}
+            <button id="book-like-btn" type="submit" name="book_id" value="{{ book.id }}" class="float-left btn btn-danger text-light ml-3">
+                Unlike
+                <img src="https://img.icons8.com/metro/26/000000/thumbs-down.png">
+            </button>
+        {% endif %}
+
+</form>

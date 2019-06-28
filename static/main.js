@@ -29,6 +29,66 @@ $.ajaxSetup({
         }
     }
 });
+/// Default Django Configuration
+
+// adding like
+$("#book-like-form").submit(function (e) {
+    e.preventDefault();
+
+    console.log("form is working");
+    let thisForm = $(this);
+    let actionEndPoint = thisForm.attr("action") || window.location.href;
+    let method = thisForm.attr("method");
+    let formData = thisForm.serialize();
+    console.log(thisForm.attr("action"));
+    console.log(thisForm.attr("method"));
+
+    $.ajax({
+        url: actionEndPoint,
+        method: method,
+        data: formData,
+        success: handleFormSuccess,
+        error: handleFormError
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR) {
+
+        console.log('success');
+        console.log('addding like');
+        console.log(data);
+        let likeAmountText = $("#like-amount").text();
+        let likeButtonText = $("#book-like-btn").text();
+        console.log(likeAmountText);
+        console.log(likeButtonText);
+        console.log(data['is_liked']);
+        addLike(data, likeAmountText);
+    }
+
+    function addLike(data, text) {
+            if (data['is_liked'] === true){
+                let amountInt = parseInt(text);
+                amountInt += 1;
+                $("#like-amount").html(amountInt.toString() + " <img src=\"https://img.icons8.com/material-rounded/24/000000/like.png\">");
+                $("#book-like-btn").html("Unlike" + " <img src=\"https://img.icons8.com/metro/26/000000/thumbs-down.png\">")
+
+            }
+            else{
+                let amountInt = parseInt(text);
+                amountInt -= 1;
+                $("#like-amount").html(amountInt.toString() + " <img src=\"https://img.icons8.com/material-rounded/24/000000/like.png\">");
+                $("#book-like-btn").html("Like" + " <img class=\"like-image\" src=\"https://img.icons8.com/material-sharp/24/000000/facebook-like.png\">")
+
+            }
+        }
+
+    function handleFormError(jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+
+
+});
 
 // adding comment
 $("#form-comment-post").submit(function (event) {
@@ -67,12 +127,6 @@ $("#form-comment-post").submit(function (event) {
     }
 
     function addComment(username, body, date) {
-        // change data format
-        // date = date.getMonth
-        //     + " " + date.getDay
-        //     + ", " + date.getFullYear
-        //     + ", " + date.getHours
-        //     + ":" + date.getHourMinute;
 
         // change comment count
         let commentCount = $("#comment-count");
@@ -122,9 +176,9 @@ $("#form-comment-post").submit(function (event) {
 
         // <i/>
 
-        let reply_icon = $("<i class='fab fa-reply'></i>");
+        let reply_icon = $("<img src=\"https://img.icons8.com/android/24/000000/reply-arrow.png\">");
 
-        let like_icon = $("<i class='fab fa-heart'></i>");
+        let like_icon = $("<img class=\"like-image\" src=\"https://img.icons8.com/material-sharp/24/000000/facebook-like.png\">");
 
         // <a> </a>
 
@@ -161,57 +215,6 @@ $("#form-comment-post").submit(function (event) {
         // commentCard.prepend(commentCardBody);
 
         console.log("adding innerHTML ... ")
-    }
-
-});
-
-// adding like
-$("#book-like-form").submit( function (element) {
-    // element.preventDefault();
-    console.log("Liking");
-    let thisForm = $(this);
-    let actionEndPoint = thisForm.attr("action") || window.location.href;
-    let method = thisForm.attr("method");
-    let formData = thisForm.serialize();
-    console.log(thisForm.attr("action"), thisForm.attr("method"));
-
-    $.ajax({
-        url: actionEndPoint,
-        method: method,
-        data: formData,
-        success: handleFormSuccess,
-        error: handleFormError
-    });
-
-    function handleFormSuccess(data, textStatus, jqXHR) {
-        console.log(data);
-        console.log(textStatus);
-        console.log(jqXHR);
-        addLike(data['isLiked']);
-        $("#form-comment-post")[0].reset(); // reset form data
-
-    }
-
-    function handleFormError(jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR);
-        console.log(textStatus);
-        console.log(errorThrown);
-    }
-
-    function addLike(data){
-
-        let spanInt = parseInt($("#like-span").text());
-
-        if(data === true){
-            spanInt += 1;
-            spanInt.toString();
-            $("#like-span").text(spanInt);
-        }
-        else{
-            spanInt -= 1;
-            spanInt.toString();
-            $("#like-span").text(spanInt);
-        }
     }
 
 });
