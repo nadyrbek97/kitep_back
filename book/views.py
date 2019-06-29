@@ -53,7 +53,7 @@ def book_detail(request, pk):
 
     book = get_object_or_404(Book, id=pk)
 
-    comments = book.comments.all().order_by("-created")[:4]
+    comments = book.comments.all().order_by("-created")[0:4]
 
     # List of similar books
     book_tag_ids = book.tags.values_list('id', flat=True)
@@ -144,20 +144,25 @@ def book_like_view(request, pk):
         if request.user in book.likes.all():
             book.likes.remove(user)
             is_liked = False
-            print("user removed")
         else:
-            print("user added")
             book.likes.add(user)
             is_liked = True
 
         data = {
             "is_liked": is_liked,
-            "is_ajax": ajax
         }
-        print(data)
         return JsonResponse(data)
     else:
         return render(request, 'book/book_detail.html', context={"error": "error"})
+
+
+# popular books
+def popular_books_view(request):
+
+    books = Book.objects.all()
+    popular_books = books.annotate(popular=Count('likes')).order_by('-popular')[:10]
+
+    return render(request, 'book/popular_books.html', context={'popular_books': popular_books})
 
 
 # Collections View

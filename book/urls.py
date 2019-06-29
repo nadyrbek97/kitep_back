@@ -3,6 +3,7 @@ from .views import (index_page_view,
                     book_detail,
                     book_tag_list,
                     book_like_view,
+                    popular_books_view,
                     SubCategoryDetailView,
                     CategoryListView,
                     CollectionDetailView,
@@ -18,6 +19,8 @@ urlpatterns = [
     # book
     path('book/<int:pk>/', book_detail, name='book-detail'),
     path('book/tag/<slug:tag_slug>', book_tag_list, name="book-tag-list"),
+    # popular books
+    path('book/popular', popular_books_view, name='popular-books'),
     # like redirect view
     path('book/like/<int:pk>/', book_like_view, name='book-like-view'),
     # collections

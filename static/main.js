@@ -182,9 +182,9 @@ $("#form-comment-post").submit(function (event) {
 
         // <a> </a>
 
-        let reply_a = $("<a class='float-right btn btn-danger text-white ml-2'></a>");
+        let reply_a = $("<a class='float-right btn btn-outline-primary text-white ml-2'></a>");
 
-        let like_a = $("<a class='float-right btn btn-outline-primary ml-2'></a>");
+        let like_a = $("<a class='float-right btn btn-danger ml-2'></a>");
 
         // add <i/> to <a> </a>
         reply_a.append(reply_icon);
