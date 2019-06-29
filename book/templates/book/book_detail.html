@@ -47,10 +47,11 @@
 
             </div>
 
-             <!-- Most Commented Books -->
+
 
             <div class="col-lg-4 col-sm-12">
 
+                <!-- Most Commented Books -->
                 <div class="card">
                     <div class="col-lg-12">
                         <h3 class="text-warning">Most commented books</h3>
@@ -69,6 +70,29 @@
                     </div>
                 </div>
                 <!-- End of Most Commented Books -->
+
+
+                {% if user.is_authenticated %}
+                    <!-- Liked books -->
+                    <div class="card mt-2">
+                        <div class="col-lg-12">
+                            <h3 class="text-warning">Your Liked Books</h3>
+                            <ul class="list">
+                                {% for book in liked_books %}
+                                    <li class="list-group-item">
+                                        <a href="{{ book.get_absolute_url }}">
+                                            {{ book.title }}
+                                        </a>
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Liked Books -->
+                {% endif %}
+
             </div>
         </div>
 

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django import views
-from django.template.loader import render_to_string
 from django.views.generic import DetailView
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
@@ -77,6 +76,8 @@ def book_detail(request, pk):
         for the posts with the same number of shared tags. We slice
         the result to retrieve only the first four posts.
     """
+    # user liked books
+    liked_books = request.user.book_likes.all()[:4]
 
     if request.is_ajax():
         # means comment was posted
@@ -107,8 +108,6 @@ def book_detail(request, pk):
             }
 
             return JsonResponse(data)
-
-            # return redirect('book-detail', book.pk)
     else:
         comment_form = CommentForm()
     return render(request,
@@ -116,7 +115,8 @@ def book_detail(request, pk):
                   context={'book': book,
                            'comments': comments,
                            'comment_form': comment_form,
-                           'similar_books': similar_books})
+                           'similar_books': similar_books,
+                           'liked_books': liked_books})
 
 
 def book_tag_list(request, tag_slug=None):
@@ -132,24 +132,6 @@ def book_tag_list(request, tag_slug=None):
                                                             "tag": tag})
 
 
-def book_like(request, *args, **kwargs):
-    book_id = request.POST.get('book_id')
-    action = request.POST.get('data-action')
-    if book_id and action:
-        try:
-            book = book_id.objects.get(id=book_id)
-            if action == 'like':
-                book.likes.add(request.user)
-            else:
-                book.likes.remove(request.user)
-            return JsonResponse({'status':'ok'})
-        except:
-            pass
-    print(book_id)
-    print(action)
-    return JsonResponse({'status':'ko'})
-
-
 # Like View
 def book_like_view(request, pk):
 
@@ -159,7 +141,6 @@ def book_like_view(request, pk):
     ajax = ''
 
     if request.is_ajax():
-        ajax += " is ajax"
         if request.user in book.likes.all():
             book.likes.remove(user)
             is_liked = False
@@ -177,29 +158,6 @@ def book_like_view(request, pk):
         return JsonResponse(data)
     else:
         return render(request, 'book/book_detail.html', context={"error": "error"})
-
-# class BookLikeToggleView(views.genec.RedirectView):
-#     permanent = False
-#     query_string = True
-#     pattern_name = "book-detail"
-#
-#     def get_redirect_url(self, *args, book_id=None, **kwargs):
-#
-#
-#         print(kwargs)
-#         pk = get_object_or_404(Book, id=self.request.POST.get("data-id"))
-#         book = get_object_or_404(Book, pk=pk)
-#         # getting url for redirecting to the same page
-#         url_ = book.get_absolute_url()
-#         user = self.request.user
-#
-#         if user.is_authenticated():
-#             if user in book.likes.all():
-#                 book.likes.remove(user)
-#             else:
-#                 book.likes.add(user)
-#
-#         return super().get_redirect_url(*args, **kwargs)
 
 
 # Collections View
