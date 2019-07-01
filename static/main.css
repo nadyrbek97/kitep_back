@@ -7,6 +7,12 @@
         object-fit: contain;
     }
 
+.tiny-img-default-size {
+        width: 100px;
+        height: 150px;
+        object-fit: contain;
+    }
+
 .like-image {
     /*width: 10px;*/
     /*height: 10px;*/

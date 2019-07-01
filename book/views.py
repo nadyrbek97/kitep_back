@@ -25,13 +25,21 @@ from datetime import datetime
 def index_page_view(request):
 
     books = Book.objects.all()
+    # popular books
+    popular_books = books.annotate(popular=Count('likes')).order_by('-popular')[:10]
+    # book collections
     collections = Collection.objects.all()
+    # book categories
+    categories = Category.objects.all()
+
     context = {
         "books": books,
         "collections": collections,
+        "categories": categories,
+        "popular_books": popular_books
     }
 
-    return render(request, "book/base.html", context=context)
+    return render(request, "book/index.html", context=context)
 
 
 # GENRES VIEW
@@ -50,10 +58,14 @@ class SubCategoryDetailView(views.generic.DetailView):
 
 # Books VIEW
 def book_detail(request, pk):
-
+    # getting book object
     book = get_object_or_404(Book, id=pk)
-
+    # book category
+    categories = Category.objects.all()
+    # book comments
     comments = book.comments.all().order_by("-created")[0:4]
+    # user liked books
+    liked_books = request.user.book_likes.all()[:4]
 
     # List of similar books
     book_tag_ids = book.tags.values_list('id', flat=True)
@@ -76,8 +88,6 @@ def book_detail(request, pk):
         for the posts with the same number of shared tags. We slice
         the result to retrieve only the first four posts.
     """
-    # user liked books
-    liked_books = request.user.book_likes.all()[:4]
 
     if request.is_ajax():
         # means comment was posted
@@ -111,12 +121,13 @@ def book_detail(request, pk):
     else:
         comment_form = CommentForm()
     return render(request,
-                  'book/book_detail.html',
+                  'book/product_detail.html',
                   context={'book': book,
                            'comments': comments,
                            'comment_form': comment_form,
                            'similar_books': similar_books,
-                           'liked_books': liked_books})
+                           'liked_books': liked_books,
+                           'categories': categories})
 
 
 def book_tag_list(request, tag_slug=None):

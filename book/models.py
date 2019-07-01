@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 from taggit.managers import TaggableManager
 
+from . import choices
+
 
 class Writer(models.Model):
     full_name = models.CharField(max_length=250)
@@ -49,6 +51,13 @@ class Collection(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
+    pages = models.PositiveIntegerField(default=0,
+                                        verbose_name='page')
+    amount = models.PositiveIntegerField(default=0)
+    price = models.PositiveIntegerField(default=0)
+    language = models.CharField(max_length=20,
+                                default='English',
+                                choices=choices.BOOK_LANGUAGE)
     published_year = models.CharField(max_length=10)
     image = models.ImageField(upload_to="book_images",
                               default="book_images/default.png",
@@ -60,8 +69,8 @@ class Book(models.Model):
                                blank=True,
                                on_delete=models.CASCADE,
                                related_name="books")
-    genre = models.ManyToManyField(SubCategory,
-                                   related_name="books")
+    sub_category = models.ManyToManyField(SubCategory,
+                                          related_name="books")
     collection = models.ForeignKey(Collection,
                                    null=True,
                                    blank=True,
