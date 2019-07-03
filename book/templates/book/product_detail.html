@@ -1,5 +1,6 @@
 {% extends 'book/index.html' %}
 {% load static%}
+{% load crispy_forms_tags %}
 
 {% block title %}
     <title>{{ book.title }}</title>
@@ -71,10 +72,10 @@
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Specification</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Comments</a>
+                <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Comments</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews</a>
+                <a class="nav-link " id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -181,30 +182,15 @@
                         <div class="col-lg-6">
                             <div class="review_box">
                                 <h4>Post a comment</h4>
-                                <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-                                        </div>
-                                    </div>
+                                <form id="form-comment-post" action="{% url "book-detail" book.id %}" method="post" >
+                                    {% csrf_token %}
+                                    <p>
+                                        {{ comment_form|crispy }}
+                                    </p>
                                     <div class="col-md-12 text-right">
-                                        <button type="submit" value="submit" class="btn submit_btn">Submit Now</button>
+                                        <button type="submit" value="submit" class="btn submit_btn">Leave Comment</button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -226,10 +212,10 @@
                                         <h3>Based on 3 Reviews</h3>
                                         <ul class="list">
                                             <li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+                                            <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+                                            <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+                                            <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+                                            <li><a href="#">1 Star <i class="fa fa-star"></i> 01</a></li>
                                         </ul>
                                     </div>
                                 </div>

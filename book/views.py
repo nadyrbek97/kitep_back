@@ -65,7 +65,9 @@ def book_detail(request, pk):
     # book comments
     comments = book.comments.all().order_by("-created")[0:4]
     # user liked books
-    liked_books = request.user.book_likes.all()[:4]
+    if not request.user.is_anonymous:
+        liked_books = request.user.book_likes.all()[:4]
+    liked_books = None
 
     # List of similar books
     book_tag_ids = book.tags.values_list('id', flat=True)

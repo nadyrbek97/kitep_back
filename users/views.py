@@ -22,7 +22,7 @@ def user_register(request):
             return redirect('index-page-view')
     else:
         form = UserRegisterForm()
-    return render(request, 'users/register_form.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form})
 
 
 def user_login(request):
@@ -42,4 +42,4 @@ def user_login(request):
     else:
         form = UserLoginForm()
 
-    return render(request, 'users/login_form.html', {'form': form})
+    return render(request, 'users/login.html', {'form': form})
