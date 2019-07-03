@@ -31,12 +31,15 @@ def index_page_view(request):
     collections = Collection.objects.all()
     # book categories
     categories = Category.objects.all()
+    # writers
+    writers = Writer.objects.all()[0:4]
 
     context = {
         "books": books,
         "collections": collections,
         "categories": categories,
-        "popular_books": popular_books
+        "popular_books": popular_books,
+        "writers": writers
     }
 
     return render(request, "book/index.html", context=context)

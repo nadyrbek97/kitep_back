@@ -62,7 +62,7 @@
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 							<ul class="nav navbar-nav menu_nav ml-auto">
-								<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+								<li class="nav-item active"><a class="nav-link" href="{% url 'index-page-view' %}">Home</a></li>
 								<li class="nav-item submenu dropdown">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories</a>
 									<ul class="dropdown-menu">
@@ -252,25 +252,15 @@
         <section class="clients_logo_area">
         	<div class="container">
         		<div class="main_title">
-        			<h2>Top Brands of this Month</h2>
+        			<h2>Top Writers</h2>
         			<p>Who are in extremely love with eco friendly system.</p>
         		</div>
         		<div class="clients_slider owl-carousel">
-        			<div class="item">
-        				<img src="img/clients-logo/c-logo-1.png" alt="">
-        			</div>
-        			<div class="item">
-        				<img src="img/clients-logo/c-logo-2.png" alt="">
-        			</div>
-        			<div class="item">
-        				<img src="img/clients-logo/c-logo-3.png" alt="">
-        			</div>
-        			<div class="item">
-        				<img src="img/clients-logo/c-logo-4.png" alt="">
-        			</div>
-        			<div class="item">
-        				<img src="img/clients-logo/c-logo-5.png" alt="">
-        			</div>
+                    {% for writer in writers %}
+                        <div class="item">
+                            <h3>{{ writer.full_name }}</h3>
+                        </div>
+                    {% endfor %}
         		</div>
         	</div>
         </section>
