@@ -26,7 +26,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'widget_tweaks',
+    'social_django',
     'taggit',
     'book',
     'users'
@@ -106,6 +107,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SOCIAL AUTH
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+]
+
+# Facebook App ID
+SOCIAL_AUTH_FACEBOOK_KEY = '1320254568125208'
+# Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SECRET = '9306aff6f0045055c8b890cf51250b28'
+# Optionally, you can define a SOCIAL_AUTH_FACEBOOK_SCOPE setting with the
+# extra permissions you want to ask Facebook users for
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
